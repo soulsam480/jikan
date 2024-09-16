@@ -1,0 +1,14 @@
+diff --git a/package.json b/package.json
+index 25359b7974649c98122b9b2360a2cc2391d76922..c58364dc0397cff0b84caaa882c09cc2124d95f3 100644
+--- a/package.json
++++ b/package.json
+@@ -12,7 +12,8 @@
+       "workerd": "./js/workerd.js",
+       "import": "./js/index.js",
+       "types": "./js/md4w.d.ts"
+-    }
++    },
++    "./js/*":"./js/*"
+   },
+   "files": [
+     "js/",
