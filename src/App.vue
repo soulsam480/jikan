@@ -1,89 +1,43 @@
 <script setup lang="ts">
-import { ref, onMounted } from "vue";
-import { notes, joinNotes } from "./lib/note";
-import { initMarkdownWasm, parseNote } from "./lib/markdown";
-import { dateFormat } from "./lib/date";
+import { useBrowserLocation } from '@vueuse/core'
+import { computed, onMounted } from 'vue'
+import { initMarkdownWasm } from './lib/markdown'
+import Home from './pages/Home.vue'
+import NewNote from './pages/NewNote.vue'
 
-const currentNote = ref("");
-const formatted = ref("");
+const loc = useBrowserLocation()
 
-function addNote() {
-    const noteValue = currentNote.value;
-
-    notes.value.push({
-        note: noteValue,
-        ts: Date.now(),
-    });
-
-    currentNote.value = "";
-}
-
-async function handleCopyNotes() {
-    const result = joinNotes(notes.value);
-
-    await navigator.clipboard.writeText(result);
-}
-
-function handlePreview() {
-    const result = joinNotes(notes.value);
-
-    const parsed = parseNote(result);
-
-    formatted.value = parsed;
-
-    document.querySelector<HTMLDialogElement>("#preview_modal")?.showModal();
-}
-
-function handleDialogClose() {
-    formatted.value = "";
-}
+const hash = computed(() => loc.value.hash)
 
 onMounted(() => {
-    void initMarkdownWasm();
-});
+  void initMarkdownWasm()
+
+  if (location.hash.length === 0) {
+    location.hash = '#notes'
+  }
+})
 </script>
 
 <template>
-    <main class="flex flex-col gap-4 p-4 w-2/3 mx-auto">
-        <div class="flex flex-col gap-2">
-            <div class="chat chat-start" v-for="note in notes" :key="note.ts">
-                <div class="chat-header">
-                    {{ dateFormat(note.ts).mmmddyyyyhhmm() }}
-                </div>
-                <div class="chat-bubble">
-                    <pre>{{ note.note }}</pre>
-                </div>
-            </div>
-        </div>
+  <main class="flex flex-col gap-4 p-4 w-2/3 mx-auto">
+    <div class="flex flex-col gap-2">
+      <div class="text-lg font-semibold">
+        Jikan
+      </div>
+      <div class="text-sm text-neutral/60 ">
+        Timestamp based note taking tool that allows to add notes as chunks then can sort them based on start and end time.
+      </div>
 
-        <textarea
-            v-model="currentNote"
-            @keyup.ctrl.enter="addNote"
-            class="textarea textarea-bordered"
-            placeholder="Enter message. Markdown is supported."
-        />
+      <div class="flex items-center gap-2">
+        <a href="#notes" class="btn px-0 btn-link btn-xs">Notes</a>
+        <a href="#new" class="btn px-0 btn-link btn-xs">New note</a>
+      </div>
+    </div>
 
-        <div class="flex justify-end items-center gap-2">
-            <button class="btn btn-sm btn-secondary" @click="handlePreview">
-                Preview
-            </button>
-            <button class="btn btn-sm btn-primary" @click="handleCopyNotes">
-                Copy notes as markdown
-            </button>
-        </div>
+    <div class="divider !m-0" />
 
-        <dialog id="preview_modal" class="modal" @close="handleDialogClose">
-            <div class="modal-box">
-                <h3 class="text-lg font-bold mb-4">Preview</h3>
+    <NewNote v-if="hash === '#new'" />
 
-                <article class="prose prose-slate" v-html="formatted"></article>
-
-                <div class="modal-action">
-                    <form method="dialog">
-                        <button class="btn">Close</button>
-                    </form>
-                </div>
-            </div>
-        </dialog>
-    </main>
+    <Home v-if="hash === '#notes'" />
+  </main>
 </template>

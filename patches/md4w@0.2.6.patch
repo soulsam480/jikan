@@ -1,5 +1,5 @@
 diff --git a/package.json b/package.json
-index 25359b7974649c98122b9b2360a2cc2391d76922..c58364dc0397cff0b84caaa882c09cc2124d95f3 100644
+index 25359b7974649c98122b9b2360a2cc2391d76922..1c0cce6ae2fb0660033a4f49a7daf0178b109b7c 100644
 --- a/package.json
 +++ b/package.json
 @@ -12,7 +12,8 @@
@@ -8,7 +8,7 @@ index 25359b7974649c98122b9b2360a2cc2391d76922..c58364dc0397cff0b84caaa882c09cc2
        "types": "./js/md4w.d.ts"
 -    }
 +    },
-+    "./js/*":"./js/*"
++    "./js/*": "./js/*"
    },
    "files": [
      "js/",

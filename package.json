@@ -6,23 +6,31 @@
   "scripts": {
     "dev": "vite",
     "build": "vue-tsc -b && vite build",
-    "preview": "vite preview"
+    "preview": "vite preview",
+    "lint": "eslint --fix src"
   },
   "dependencies": {
+    "@vueuse/components": "^11.1.0",
+    "@vueuse/core": "^11.1.0",
     "md4w": "^0.2.6",
     "vue": "^3.4.37"
   },
   "devDependencies": {
+    "@antfu/eslint-config": "^3.6.2",
     "@tailwindcss/typography": "^0.5.15",
     "@vitejs/plugin-vue": "^5.1.2",
     "autoprefixer": "^10.4.20",
     "daisyui": "^4.12.10",
+    "eslint": "^9.10.0",
+    "eslint-plugin-format": "^0.1.2",
     "tailwindcss": "^3.4.11",
     "typescript": "^5.5.3",
     "vite": "^5.4.1",
     "vue-tsc": "^2.0.29"
   },
-  "patchedDependencies": {
-    "md4w@0.2.6": "patches/md4w@0.2.6.patch"
+  "pnpm": {
+    "patchedDependencies": {
+      "md4w@0.2.6": "patches/md4w@0.2.6.patch"
+    }
   }
 }
