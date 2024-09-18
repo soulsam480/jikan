@@ -13,7 +13,8 @@
     "@vueuse/components": "^11.1.0",
     "@vueuse/core": "^11.1.0",
     "md4w": "^0.2.6",
-    "vue": "^3.4.37"
+    "vue": "^3.4.37",
+    "workbox-window": "^7.1.0"
   },
   "devDependencies": {
     "@antfu/eslint-config": "^3.6.2",
