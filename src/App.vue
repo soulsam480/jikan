@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import { useBrowserLocation } from '@vueuse/core'
 import { computed, onMounted } from 'vue'
+import { initShiki } from './lib/highlight'
 import { initMarkdownWasm } from './lib/markdown'
 import Home from './pages/Home.vue'
 import NewNote from './pages/NewNote.vue'
@@ -11,6 +12,7 @@ const hash = computed(() => loc.value.hash)
 
 onMounted(() => {
   void initMarkdownWasm()
+  void initShiki()
 
   if (location.hash.length === 0) {
     location.hash = '#notes'

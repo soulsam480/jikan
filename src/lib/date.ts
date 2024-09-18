@@ -58,5 +58,15 @@ export function dateFormat(date: Date | number) {
     mmmyy() {
       return date.toLocaleString('en-IN', { month: 'short', year: '2-digit' })
     },
+    yyyymmddthhmm() {
+      return date.toLocaleString('en-CA', {
+        year: 'numeric',
+        month: '2-digit',
+        day: '2-digit',
+        hour: '2-digit',
+        minute: '2-digit',
+        hour12: false,
+      }).replace(', ', 'T').slice(0, 16)
+    },
   }
 }

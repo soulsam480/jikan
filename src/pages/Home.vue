@@ -3,19 +3,21 @@ import type { ISavedNote } from '../lib/note'
 import { ref } from 'vue'
 import PreviewNote from '../lib/components/PreviewNote.vue'
 import { dateFormat } from '../lib/date'
-import { parseNote } from '../lib/markdown'
-import { storedNotes } from '../lib/note'
+import { joinNotes, storedNotes } from '../lib/note'
 
-const formatted = ref('')
+const currentNote = ref<string | null>(null)
 
 async function handleCopyNotes(note: ISavedNote) {
-  await navigator.clipboard.writeText(note.text)
+  await navigator.clipboard.writeText(joinNotes(note.name, note.notes))
 }
 
 function handlePreview(note: ISavedNote) {
-  const parsed = parseNote(note.text)
+  if (note.notes.length === 0)
+    return
 
-  formatted.value = parsed
+  const result = joinNotes(note.name, note.notes)
+
+  currentNote.value = result
 
   document.querySelector<HTMLDialogElement>('#preview_modal')?.showModal()
 }
@@ -25,7 +27,7 @@ function handleDelete(note: ISavedNote) {
 }
 
 function handleClose() {
-  formatted.value = ''
+  currentNote.value = null
 }
 </script>
 
@@ -51,6 +53,10 @@ function handleClose() {
       </div>
     </div>
 
-    <PreviewNote :note-text="formatted" @close="handleClose" />
+    <div v-if="storedNotes.length === 0" class="text-center">
+      Note saved notes. add <a href="#new" class="link">new</a>
+    </div>
+
+    <PreviewNote :note-text="currentNote ?? ''" @close="handleClose" />
   </div>
 </template>
