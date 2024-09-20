@@ -3,7 +3,7 @@ import type { ISavedNote } from '../lib/note'
 import { ref } from 'vue'
 import PreviewNote from '../lib/components/PreviewNote.vue'
 import { dateFormat } from '../lib/date'
-import { joinNotes, storedNotes } from '../lib/note'
+import { exportNoteSubtitles, joinNotes, storedNotes } from '../lib/note'
 
 const currentNote = ref<string | null>(null)
 
@@ -29,6 +29,22 @@ function handleDelete(note: ISavedNote) {
 function handleClose() {
   currentNote.value = null
 }
+
+async function handleCopySubtitles(note: ISavedNote) {
+  const result = exportNoteSubtitles(note.notes)
+
+  const a = window.document.createElement('a')
+
+  a.href = window.URL.createObjectURL(new Blob([result], { type: 'text/srt' }))
+  a.download = `${note.name}-subtitles.srt`
+
+  // Append anchor to body.
+  document.body.appendChild(a)
+  a.click()
+
+  // Remove anchor from body
+  document.body.removeChild(a)
+}
 </script>
 
 <template>
@@ -46,6 +62,9 @@ function handleClose() {
         </button>
         <button class="btn btn-xs btn-accent" @click="handleCopyNotes(note)">
           Copy as markdown
+        </button>
+        <button class="btn btn-xs btn-accent" @click="handleCopySubtitles(note)">
+          Download subtitles
         </button>
         <button class="btn btn-xs btn-error" @click="handleDelete(note)">
           Delete

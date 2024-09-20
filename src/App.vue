@@ -15,7 +15,7 @@ onMounted(() => {
   void initShiki()
 
   if (location.hash.length === 0) {
-    location.hash = '#notes'
+    location.hash = '#new'
   }
 })
 </script>
@@ -30,9 +30,9 @@ onMounted(() => {
         Timestamp based note taking tool that allows to add notes as chunks then can sort them based on start and end time.
       </div>
 
-      <div class="flex items-center gap-2">
-        <a href="#notes" class="btn px-0 btn-link btn-xs">Notes</a>
-        <a href="#new" class="btn px-0 btn-link btn-xs">New note</a>
+      <div role="tablist" class="tabs tabs-xs tabs-boxed max-w-max">
+        <a href="#notes" role="tab" class="tab" :class="{ 'tab-active': hash === '#notes' }">view saved notes</a>
+        <a href="#new" role="tab" class="tab" :class="{ 'tab-active': hash === '#new' }">create new</a>
       </div>
     </div>
 

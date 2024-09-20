@@ -3,5 +3,5 @@
 @tailwind utilities;
 
 .shiki {
-  @apply rounded p-2;
+  @apply rounded p-2 overflow-scroll;
 }
